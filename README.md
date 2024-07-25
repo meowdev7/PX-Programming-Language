@@ -1,6 +1,5 @@
 # PX-Programming-Language
-It is a normal programming language made by me in javascript....
-
+It is a normal programming language made by me in JavaScript....
 
 # PX Programming Language
 
@@ -36,7 +35,7 @@ PX is a simple, lightweight programming language designed to be similar to JavaS
 
 ### Variables
 
-PX uses `fix` for constants and `let` for variables and out for console output:
+PX uses `fix` for constants and `let` for variables and `out` for console output:
 
 ```px
 fix pi = 3.14;
@@ -46,12 +45,13 @@ out(pi + count);
 
 ### Functions
 
-Functions in PX are defined using func and async func for asynchronous functions:
+Functions in PX are defined using `func` and `async func` for asynchronous functions:
 
+```px
 func greet(name) {
     out("Hello, " + name + "!");
 }
-```px
+
 async func fetchData(url) {
     let response = await fetch(url);
     let data = await response.json();
@@ -63,7 +63,7 @@ async func fetchData(url) {
 
 PX uses `inc` for imports and `exp` for exports:
 
-In module.px
+In `module.px`
 ```px
 func greet() {
     out("Hello, World!");
@@ -71,7 +71,8 @@ func greet() {
 
 exp greet;
 ```
-In main.px
+
+In `main.px`
 ```px
 inc greet from './module.px';
 
@@ -80,7 +81,7 @@ greet();
 
 For importing packages, use `incp`:
 
-In main.px
+In `main.px`
 ```px
 incp colorize from "colors";
 
@@ -94,14 +95,27 @@ main();
 
 ### Web Server
 
-PX can start a web server using the `enable web;` keyword:
+PX can start a web server using the `webpx` package:
 
+In `main.px`
 ```px
-enable web;
+incp webpx from "webpx";
 
-server.route("/", "./index.html");
+fix app = webpx.createApp();
 
-server.start(8080).then(out("Web server enabled!"));
+app.get('/', (req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Hello, world!\n');
+});
+
+app.get('/about', (req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('About Page\n');
+});
+
+app.listen(8080, () => {
+    out('Server is running on port 8080');
+});
 ```
 
 ### Discord Integration [Experimental / Unavailable]
@@ -126,7 +140,7 @@ PXPM is a CLI tool for managing PX packages.
 
 ### Installation
 
-To install PXPM globally go to releases and download pxpm
+To install PXPM globally go to releases and download `pxpm`.
 
 ### Usage
 
@@ -142,7 +156,7 @@ Install a package from a GitHub repository:
 pxpm install https://github.com/user/repo
 ```
 
-For example :-
+For example:
 
 ```sh
 pxpm install https://github.com/meowdev7/colors
@@ -152,18 +166,22 @@ pxpm install https://github.com/meowdev7/colors
 
 Here's an example PX file with some features:
 
-```sh
+```px
 incp colorize from "colors";
+incp webpx from "webpx";
 
-enable web;
+fix app = webpx.createApp();
 
 func greet(name) {
     out(colorize("Hello, " + name + "!", "blue"));
 }
 
-server.route("/", "./index.html");
+app.get('/', (req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Hello, world!\n');
+});
 
-server.start(8080).then(() => {
+app.listen(8080, () => {
     out("Web server enabled!");
     greet("World");
 });
